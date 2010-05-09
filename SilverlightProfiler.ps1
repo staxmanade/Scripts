@@ -1,4 +1,18 @@
 
+<#
+
+ Read the following blog for furthur information
+ http://blogs.msdn.com/profiler/archive/2010/04/26/vs2010-silverlight-4-profiling.aspx
+
+ This script was written to make profiling silverlight applications a little easier.
+ 1. Run a powershell console as admin
+ 2. Specify the url that contians the xap below
+ 3. Execute this script
+ 4. When done profiling press enter to stop the session and create the profiling report.
+ 5. The script will print the path to the profiling session report. (You can then view it in Visual Studio)
+#>
+
+
 #Url containing the silverlight xap to launch from Internet Explorer
 $myUrl = "http://localhost:52176/SilverlightPerformanceSampleTestPage.aspx"
 
@@ -12,10 +26,6 @@ if(!($p.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator))
 	write-host -ForegroundColor Red "You have to run this as administrator"
 }
 
-#
-# Perf info found here
-# http://blogs.msdn.com/profiler/archive/2010/04/26/vs2010-silverlight-4-profiling.aspx
-#
 
 $env:Path = $env:Path + ";C:\Program Files\Microsoft Visual Studio 8\Team Tools\Performance Tools"
 $env:SAMPLE_GUID='{F1216318-0905-4fe8-B2E8-105CEB7CD689}'
