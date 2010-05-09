@@ -24,6 +24,7 @@ $p = New-Object System.Security.Principal.WindowsPrincipal($id)
 if(!($p.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)))
 {
 	write-host -ForegroundColor Red "You have to run this as administrator"
+	return
 }
 
 
