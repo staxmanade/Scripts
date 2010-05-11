@@ -1,3 +1,4 @@
+param([string]$urPath)
 
 <#
 
@@ -6,16 +7,10 @@
 
  This script was written to make profiling silverlight applications a little easier.
  1. Run a powershell console as admin
- 2. Specify the url that contians the xap below
- 3. Execute this script
+ 2. Execute the script specifing the $urlPath parameter
  4. When done profiling press enter to stop the session and create the profiling report.
  5. The script will print the path to the profiling session report. (You can then view it in Visual Studio)
 #>
-
-
-#Url containing the silverlight xap to launch from Internet Explorer
-$myUrl = "http://localhost:52176/SilverlightPerformanceSampleTestPage.aspx"
-
 
 #detect that we're running as adminsitrator (required for performance tooling)
 # http://www.leastprivilege.com/AdminTitleBarForPowerShell.aspx
@@ -44,7 +39,7 @@ $VSPerfCmd = "c:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Performan
 
 $outFilePath = [System.IO.Path]::GetRandomFileName()
 
-& $VSPerfCmd /start:sample /output:$outFilePath /launch:"c:\Program Files\Internet Explorer\iexplore.exe" /args:$myUrl
+& $VSPerfCmd /start:sample /output:$outFilePath /launch:"c:\Program Files\Internet Explorer\iexplore.exe" /args:$urPath
 
 Read-Host -Prompt "Press any key to stop the profiler..."
 
@@ -53,4 +48,5 @@ Read-Host -Prompt "Press any key to stop the profiler..."
 & $VSPerfClrEnv /off
 
 $f = get-item "$outFilePath*"
-write-host -ForegroundColor Green "Your report is located at $f"
+write-host -ForegroundColor Green "Wrote performance report to:"
+write-host -ForegroundColor Green "  $f"
