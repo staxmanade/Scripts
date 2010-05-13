@@ -1,4 +1,4 @@
-param([string]$urPath)
+param([string]$urlPath)
 
 <#
 
@@ -39,7 +39,7 @@ $VSPerfCmd = "c:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Performan
 
 $outFilePath = [System.IO.Path]::GetRandomFileName()
 
-& $VSPerfCmd /start:sample /output:$outFilePath /launch:"c:\Program Files\Internet Explorer\iexplore.exe" /args:$urPath
+& $VSPerfCmd /start:sample /output:$outFilePath /launch:"c:\Program Files\Internet Explorer\iexplore.exe" /args:$urlPath
 
 Read-Host -Prompt "Press any key to stop the profiler..."
 
