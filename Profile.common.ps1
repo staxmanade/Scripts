@@ -161,7 +161,7 @@ function midnight() { (get-date).Subtract((get-date).TimeOfDay) }
 
 <#
 	// example usage of auto-updating powershell environment
-	if([Environment]::GetEnvironmentVariable("LastDownloadOfCommonProfile", "User") -lt (midnight))
+	if([Environment]::GetEnvironmentVariable("LastDownloadOfCommonProfile", "User") -lt ((get-date).Subtract((get-date).TimeOfDay)))
 	{
 		downloadCommonProfile
 	}
