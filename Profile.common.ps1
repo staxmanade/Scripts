@@ -156,3 +156,25 @@ for($ui = $Host.UI.RawUI;;) {
     }
   }
 }
+
+function midnight() { (get-date).Subtract((get-date).TimeOfDay) }
+
+<#
+	// example usage of auto-updating powershell environment
+	if([Environment]::GetEnvironmentVariable("LastDownloadOfCommonProfile", "User") -lt (midnight))
+	{
+		downloadCommonProfile
+	}
+#>
+function downloadCommonProfile()
+{
+	$srcScriptHttpPath = 'http://github.com/staxmanade/Scripts/raw/master/Profile.common.ps1'
+	$dotSourcedCommonFileLocalPath = "$(Split-Path $PROFILE)\Microsoft.PowerShell_profile.common.ps1"
+	$clnt = new-object System.Net.WebClient
+	echo "Downloading common profile script from - $srcScriptHttpPath"
+	$clnt.DownloadFile($srcScriptHttpPath, "$dotSourcedCommonFileLocalPath")
+	echo "Adding it to the local session (dot sourcing file - $dotSourcedCommonFileLocalPath)"
+	. $dotSourcedCommonFileLocalPath
+
+	[Environment]::SetEnvironmentVariable("LastDownloadOfCommonProfile", (midnight), "User")
+}
