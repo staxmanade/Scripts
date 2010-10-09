@@ -151,7 +151,7 @@ for($ui = $Host.UI.RawUI;;) {
 function midnight() { (get-date).Subtract((get-date).TimeOfDay) }
 
 <#
-	// example usage of auto-updating powershell environment
+	# example usage of auto-updating powershell environment
 	$dotSourcedCommonFileLocalPath = "$(Split-Path $PROFILE)\Microsoft.PowerShell_profile.common.ps1"
 	. $dotSourcedCommonFileLocalPath
 	if([Environment]::GetEnvironmentVariable("LastDownloadOfCommonProfile", "User") -lt ((get-date).Subtract((get-date).TimeOfDay)))
