@@ -1,4 +1,18 @@
-set-alias notepad 'C:\Program Files\Notepad++\notepad++.exe'
+
+$notepadPath = 'C:\Program Files\Notepad++\notepad++.exe'
+if(!(test-path $notepadPath))
+{
+    $notepadPath = 'C:\Program Files (x86)\Notepad++\notepad++.exe'
+}
+
+if(!(test-path $notepadPath))
+{
+    Write-Warning "Notepad++ not found"
+}
+else
+{
+    set-alias notepad $notepadPath
+}
 
 function loadCurrentFolderIntoExplorer
 {
