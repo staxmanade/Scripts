@@ -171,3 +171,7 @@ function downloadCommonProfile()
 
 	[Environment]::SetEnvironmentVariable("LastDownloadOfCommonProfile", (midnight), "User")
 }
+
+$tfPath = Find-Program 'Microsoft Visual Studio 10.0\Common7\IDE\TF.exe'
+function tf(){ & $tfPath $args }
+
