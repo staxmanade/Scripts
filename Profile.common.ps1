@@ -1,10 +1,26 @@
-set-alias notepad 'C:\Program Files\Notepad++\notepad++.exe'
 
-function loadCurrentFolderIntoExplorer
+
+function Find-Program($folderName)
 {
-	Invoke-Item .
+    $p1 = "C:\Program Files\$folderName"
+    if(!(test-path $p1))
+    {
+        $p2 = "C:\Program Files (x86)\$folderName"
+        
+        if(!(test-path $p2))
+        {
+            Write-Warning "Could not find program folder/path in either $p1 or $p2"
+        }
+        else
+        {
+            $p2
+        }
+    }
+    else
+    {
+        $p1
+    }
 }
-set-alias e loadCurrentFolderIntoExplorer
 
 function Load-Assembly($assembly)
 {
@@ -21,44 +37,17 @@ echo $assembly
 }
 
 
-
-function invoke-psake-locally
+$notepadPath = Find-Program 'Notepad++\notepad++.exe'
+if($notepadPath)
 {
-	# Helper script for those who want to run psake without importing the module.
-	# Example:
-	# .\psake.ps1 "default.ps1" "BuildHelloWord" "4.0" 
-
-	# Must match parameter definitions for psake.psm1/invoke-psake 
-	# otherwise named parameter binding fails
-	param(
-	  [Parameter(Position=0,Mandatory=0)]
-	  [string]$buildFile = 'default.ps1',
-	  [Parameter(Position=1,Mandatory=0)]
-	  [string[]]$taskList = @(),
-	  [Parameter(Position=2,Mandatory=0)]
-	  [string]$framework = '3.5',
-	  [Parameter(Position=3,Mandatory=0)]
-	  [switch]$docs = $false,
-	  [Parameter(Position=4,Mandatory=0)]
-	  [System.Collections.Hashtable]$parameters = @{},
-	  [Parameter(Position=5, Mandatory=0)]
-	  [System.Collections.Hashtable]$properties = @{}
-	)
-
-	try {
-	  $psakeModulePath = (join-path ($pwd).Path psake.psm1)
-	  
-	  if(!(test-path $psakeModulePath))
-	  {
-		throw "Cannot find $psakeModulePath"
-	  }
-	  import-module $psakeModulePath
-	  invoke-psake $buildFile $taskList $framework $docs $parameters $properties
-	} finally {
-	  remove-module psake -ea 'SilentlyContinue'
-	}
+    set-alias notepad $notepadPath
 }
-set-alias ip invoke-psake-locally
+
+function loadCurrentFolderIntoExplorer
+{
+	Invoke-Item .
+}
+set-alias e loadCurrentFolderIntoExplorer
 
 function sha1()
 {
@@ -176,10 +165,10 @@ for($ui = $Host.UI.RawUI;;) {
 function midnight() { (get-date).Subtract((get-date).TimeOfDay) }
 
 <#
-	// example usage of auto-updating powershell environment
+	# example usage of auto-updating powershell environment
 	$dotSourcedCommonFileLocalPath = "$(Split-Path $PROFILE)\Microsoft.PowerShell_profile.common.ps1"
 	. $dotSourcedCommonFileLocalPath
-	if([Environment]::GetEnvironmentVariable("LastDownloadOfCommonProfile", "User") -lt ((get-date).Subtract((get-date).TimeOfDay)))
+	if([Environment]::GetEnvironmentVariable("LastDownloadOfCommonProfile", "User") -lt ((get-date).Date))
 	{
 		downloadCommonProfile
 	}
@@ -196,3 +185,7 @@ function downloadCommonProfile()
 
 	[Environment]::SetEnvironmentVariable("LastDownloadOfCommonProfile", (midnight), "User")
 }
+
+$tfPath = Find-Program 'Microsoft Visual Studio 10.0\Common7\IDE\TF.exe'
+function tf(){ & $tfPath $args }
+
