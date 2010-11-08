@@ -17,20 +17,20 @@ function chomp($items)
 		return;
 	}
 	
-	$end = $items.length-1
-	if($end -eq 2)
+	$length = $items.length-1
+	if($length -eq 2)
 	{
 		$mid = 1;
 	}
 	else
 	{
-		$mid = [int]($end / 2)
+		$mid = [int]($length / 2)
 	}
 
 	echo "items:$items"
 	echo "mid item:$($items[$mid])"
 	echo "mid:$mid"
-	echo "end:$end"
+	echo "length:$length"
 	
 	$itemMessage = "$($items[$mid])"
 	$doesThisHaveBug = read-host -prompt "Does [$itemMessage] have the bug?(Y/N/Q(quit))"
@@ -55,19 +55,21 @@ function chomp($items)
 	
 }
 
-function Assert-Arrays-Equal($array1, $array2)
+function Assert-Arrays-Equal($actual, $expected)
 {
-	if(!$array1)
+	if(!$actual)
 	{
-		throw "Assert-Arrays-Equal - array1 is null"
+		throw "Assert-Arrays-Equal - actual is null"
 	}
-	if(!$array2)
+	if(!$expected)
 	{
-		throw "Assert-Arrays-Equal - array2 is null"
+		throw "Assert-Arrays-Equal - expected is null"
 	}
-	$r = Compare-Object $array1 $array2
+	$r = Compare-Object $actual $expected
 	if($r)
 	{
+		"actual  : $actual"
+		"expected: $expected"
 		$r
 		throw "Arrays not equal"
 	}
@@ -89,15 +91,14 @@ function Assert
 
 function chompX($items, $wichHalf)
 {
-	$end = $items.length-1
-	if($end -eq 2)
+	$length = $items.length
+	$mid = [int]($length / 2)
+	
+	if(($length / 2) -gt $mid)
 	{
-		$mid = 1;
+		$mid = ($mid + 1)
 	}
-	else
-	{
-		$mid = [int]($end / 2) + 1
-	}
+
 	if($wichHalf -eq 'first')
 	{
 		$items | select -first $mid
@@ -108,10 +109,12 @@ function chompX($items, $wichHalf)
 	}
 }
 
-# $items = @(1,2,3,4,5,6,7,8,9,10,11,12,13)
-# #chomp $items 
-
 $result = chompX @(1,2,3,4,5,6,7,8,9,10,11,12,13) 'first'; Assert-Arrays-Equal $result @(1,2,3,4,5,6,7)
 $result = chompX @(1,2,3,4,5,6,7,8,9,10,11,12,13) 'last';  Assert-Arrays-Equal $result @(7,8,9,10,11,12,13)
 $result = chompX @(1,2) 'first'; Assert-Arrays-Equal $result @(1)
 $result = chompX @(1,2) 'last'; Assert-Arrays-Equal $result @(2)
+$result = chompX @(1,2,3) 'first'; Assert-Arrays-Equal $result @(1,2)
+$result = chompX @(1,2,3) 'last'; Assert-Arrays-Equal $result @(2,3)
+
+$result = chompX @(1,2,3,4) 'first'; Assert-Arrays-Equal $result @(1,2)
+$result = chompX @(1,2,3,4) 'last'; Assert-Arrays-Equal $result @(3,4)
