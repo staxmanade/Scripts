@@ -1,68 +1,8 @@
+. .\AssertHelpers.ps1
 
 function startsWithIgnoreCase([string] $value, [string] $startsWith)
 {
 	$value.StartsWith($startsWith, [System.StringComparison]::OrdinalIgnoreCase)
-}
-
-function Assert-Arrays-Equal($actual, $expected)
-{
-	if(!$actual -and $expected)
-	{
-		"actual  : $actual"
-		"expected: $expected"
-		throw "Assert-Arrays-Equal - actual is null"
-	}
-	if(!$expected -and $actual)
-	{
-		"actual  : $actual"
-		"expected: $expected"
-		throw "Assert-Arrays-Equal - expected is null"
-	}
-	if(!$expected -and !$actual)
-	{
-	}
-	else
-	{
-		$r = Compare-Object $actual $expected
-		if($r)
-		{
-			"actual  : $actual"
-			"expected: $expected"
-			$r
-			throw "Arrays not equal"
-		}
-	}
-}
-
-function Assert-Equal($actual, $expected, $message ='')
-{
-	if(!($actual -eq $expected))
-	{
-		"actual  : $actual"
-		"expected: $expected"
-		if($message)
-		{
-			throw $message
-		}
-		else
-		{
-			throw "expect not equal actual"
-		}
-	}
-}
-
-function Assert
-{
-	[CmdletBinding(
-		SupportsShouldProcess=$False,
-		SupportsTransactions=$False,
-		ConfirmImpact="None",
-		DefaultParameterSetName="")]
-  param(
-    [Parameter(Position=0,Mandatory=1)]$conditionToCheck,
-    [Parameter(Position=1,Mandatory=1)]$failureMessage
-  )
-  if (!$conditionToCheck) { throw $failureMessage }
 }
 
 function midChomp($items)
@@ -90,6 +30,7 @@ function midChomp($items)
 	}
 	$result
 }
+<# TESTS
 
 $result = midChomp @(1,2)
 Assert-Equal $result.Index 0
@@ -115,6 +56,7 @@ $result = midChomp @('b')
 Assert-Equal $result.Index 0
 Assert-Arrays-Equal $result.Left @()
 Assert-Arrays-Equal $result.Right @()
+#>
 
 function chomp($items)
 {
