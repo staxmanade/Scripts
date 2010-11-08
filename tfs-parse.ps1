@@ -62,8 +62,7 @@ function chomp($items)
 {
 	if(!($items))
 	{
-		$items
-		'DONE?'
+		'DONE'
 		return;
 	}
 	$result = midChomp $items
@@ -85,12 +84,10 @@ function chomp($items)
 		
 		if(startsWithIgnoreCase $doesThisHaveBug 'n')
 		{
-		'right'
 			chomp($result.Right)
 		}
 		elseif(startsWithIgnoreCase $doesThisHaveBug 'y')
 		{
-		'left'
 			chomp($result.Left)
 		}
 		else
