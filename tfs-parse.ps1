@@ -5,7 +5,7 @@ function startsWithIgnoreCase([string] $value, [string] $startsWith)
 	$value.StartsWith($startsWith, [System.StringComparison]::OrdinalIgnoreCase)
 }
 
-function midChomp($items)
+function segmentItems($items)
 {
 	$length = $items.Length-1
 	if($length -eq 1)
@@ -32,31 +32,36 @@ function midChomp($items)
 }
 <# TESTS
 
-$result = midChomp @(1,2)
+$result = segmentItems @(1,2)
 Assert-Equal $result.Index 0
 Assert-Arrays-Equal $result.Left @()
 Assert-Arrays-Equal $result.Right @(2)
 
-$result = midChomp @(1,2,3)
+$result = segmentItems @(1,2,3)
 Assert-Equal $result.Index 1
 Assert-Arrays-Equal $result.Left @(1)
 Assert-Arrays-Equal $result.Right @(3)
 
-$result = midChomp @(1,2,3,4,5,6,7,8,9)
+$result = segmentItems @(1,2,3,4,5,6,7,8,9)
 Assert-Equal $result.Index 4
 Assert-Arrays-Equal $result.Left @(1,2,3,4)
 Assert-Arrays-Equal $result.Right @(6,7,8,9)
 
-$result = midChomp @('a','b','c','d','e','f','g','h','i')
+$result = segmentItems @('a','b','c','d','e','f','g','h','i')
 Assert-Equal $result.Index 4
 Assert-Arrays-Equal $result.Left @('a','b','c','d')
 Assert-Arrays-Equal $result.Right @('f','g','h','i')
 
-$result = midChomp @('b')
+$result = segmentItems @('b')
 Assert-Equal $result.Index 0
 Assert-Arrays-Equal $result.Left @()
 Assert-Arrays-Equal $result.Right @()
 #>
+
+function checkout($srcPath, $changeset)
+{
+	tf get $srcPath /version:C$changeset /force /recursive
+}
 
 function chomp($items)
 {
@@ -65,13 +70,15 @@ function chomp($items)
 		'DONE'
 		return;
 	}
-	$result = midChomp $items
+	$result = segmentItems $items
 	'*********** DEBUG'
 	$result
 	'*********** DEBUG'
 
 	$itemX = $items[$result.Index]
 
+	checkout($itemX)
+	
 	$doesThisHaveBug = read-host -prompt "Does [$itemX] have the bug?(Y/N/Q(quit))"
 
 	if($doesThisHaveBug)
