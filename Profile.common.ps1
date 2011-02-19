@@ -41,6 +41,7 @@ $notepadPath = Find-Program 'Notepad++\notepad++.exe'
 if($notepadPath)
 {
     set-alias notepad $notepadPath
+    set-alias np $notepadPath
 }
 
 function loadCurrentFolderIntoExplorer
