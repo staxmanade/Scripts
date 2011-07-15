@@ -20,7 +20,6 @@ function Internal-Change-Directory($cmd, $ShowCount){
 				Write-Host ("{0,6}) {1}" -f $index, $location)
 			}
 			$index++
-			#"{0} > {1}" -f $index, $ShowCount
 			if($index -gt $ShowCount){
 				break;
 			}
@@ -48,4 +47,4 @@ function Internal-Change-Directory($cmd, $ShowCount){
 	}
 }
 
-Internal-Change-Directory $cmd $ShowCount
+Internal-Change-Directory -cmd $cmd -ShowCount $ShowCount
