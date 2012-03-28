@@ -1,5 +1,5 @@
 # install this script by executing
-#  iex ((new-object net.webclient).DownloadString('https://github.com/staxmanade/Scripts/devInstall.ps1'))
+#  iex ((new-object net.webclient).DownloadString('https://raw.github.com/staxmanade/Scripts/master/devInstall.ps1'))
 # 
 
 
