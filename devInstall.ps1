@@ -7,7 +7,7 @@
 iex ((new-object net.webclient).DownloadString('http://bit.ly/psChocInstall'))
 
 #Install all my favorite packages.
-cinst -all -source 'http://www.myget.org/F/6a72e3c34526424eacb4a37e8c21f809/'
+cinst all -source 'http://www.myget.org/F/6a72e3c34526424eacb4a37e8c21f809/'
 
 # setup local powershell profile.
 function initProfile()
