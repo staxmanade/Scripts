@@ -45,7 +45,7 @@ function initProfile()
         }
         else
         {
-            git clone git@github.com:staxmanade/PsProfile.git
+            git clone git://github.com/staxmanade/PsProfile.git
         }
 
         if(!(cat $profile | select-string 'PsProfile\\initProfile.ps1'))
