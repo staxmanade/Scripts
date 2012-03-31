@@ -9,6 +9,18 @@ iex ((new-object net.webclient).DownloadString('http://bit.ly/psChocInstall'))
 #Install all my favorite packages.
 cinst all -source 'http://www.myget.org/F/6a72e3c34526424eacb4a37e8c21f809/'
 
+if(!(where.exe git)){
+
+	$gitPath = 'C:\Program Files\git\bin\git.exe'
+	if(!(test-path $gitPath)){
+		$gitPath = 'C:\Program Files (x86)\Git\bin\git.exe'
+	}
+
+	function git(){
+		& $gitPath $args
+	}
+}
+
 # setup local powershell profile.
 function initProfile()
 {
@@ -46,3 +58,4 @@ function initProfile()
 }
 
 initProfile
+
