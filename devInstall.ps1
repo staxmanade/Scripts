@@ -6,6 +6,9 @@
 # Install Chocolatey from chocolatey.org
 iex ((new-object net.webclient).DownloadString('http://bit.ly/psChocInstall'))
 
+# add chocolatey to the path since v0.9.8.16 doesn't do it.
+if(!(where.exe chocolatey)){ $env:Path += ';C:\Chocolatey\bin;' }
+
 #Install all my favorite packages.
 cinst all -source 'http://www.myget.org/F/6a72e3c34526424eacb4a37e8c21f809/'
 
