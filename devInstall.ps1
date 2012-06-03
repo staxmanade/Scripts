@@ -10,7 +10,24 @@ iex ((new-object net.webclient).DownloadString('http://bit.ly/psChocInstall'))
 if(!(where.exe chocolatey)){ $env:Path += ';C:\Chocolatey\bin;' }
 
 #Install all my favorite packages.
-cinst all -source 'http://www.myget.org/F/6a72e3c34526424eacb4a37e8c21f809/'
+#cinst all -source 'http://www.myget.org/F/6a72e3c34526424eacb4a37e8c21f809/'
+
+$chocolateyIds = '7zip
+notepadplusplus
+poshgit
+fiddler
+linqpad4
+putty
+WindowsLiveMesh
+paint.net'
+
+$chocolateyIds > ChocolateyInstallIds.txt
+$path = get-item 'ChocolateyInstallIds.txt'
+$notepad = [System.Diagnostics.Process]::Start( "notepad.exe", $path )
+$notepad.WaitForExit()
+cat $path | where { $_ } | %{ cinst $_ }
+
+
 
 if(!(where.exe git)){
 
