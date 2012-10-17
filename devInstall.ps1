@@ -16,6 +16,7 @@ $chocolateyIds = '7zip
 notepadplusplus
 poshgit
 fiddler
+wincommandpaste
 linqpad4
 putty
 WindowsLiveMesh
