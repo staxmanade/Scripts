@@ -16,6 +16,7 @@ $chocolateyIds = '7zip
 notepadplusplus
 poshgit
 fiddler
+treesizefree
 P4Merge
 wincommandpaste
 linqpad4
@@ -27,7 +28,7 @@ $chocolateyIds > ChocolateyInstallIds.txt
 $path = get-item 'ChocolateyInstallIds.txt'
 $notepad = [System.Diagnostics.Process]::Start( "notepad.exe", $path )
 $notepad.WaitForExit()
-cat $path | where { $_ } | %{ cinst $_ }
+cat $path | where { $_ } | %{ cinstm $_ }
 
 
 
