@@ -21,7 +21,7 @@ P4Merge
 wincommandpaste
 linqpad4
 putty
-WindowsLiveMesh
+SkyDrive
 paint.net'
 
 $chocolateyIds > ChocolateyInstallIds.txt
