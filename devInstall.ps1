@@ -91,10 +91,15 @@ function initProfile()
 initProfile
 
 
+import-module "$env:chocolateyinstall\chocolateyInstall\helpers\chocolateyInstaller.psm1"
+$helperDir = (Get-ChildItem $env:ChocolateyInstall\lib\boxstarter.helpers*)
+if($helperDir.Count -gt 1){$helperDir = $helperDir[-1]}
+import-module $helperDir\boxstarter.helpers.psm1
 
 Set-ExplorerOptions -showHidenFilesFoldersDrives -showProtectedOSFiles -showFileExtensions
 
 Install-ChocolateyPinnedTaskBarItem (Find-Program "Google\Chrome\Application\chrome.exe")
+Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe"
 
 Install-ChocolateyFileAssociation ".txt" "$editorOfChoice"
 Install-ChocolateyFileAssociation ".dll" "$env:ChocolateyInstall\bin\dotPeek.bat"
