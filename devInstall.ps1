@@ -9,6 +9,9 @@ iex ((new-object net.webclient).DownloadString('http://bit.ly/psChocInstall'))
 # add chocolatey to the path since v0.9.8.16 doesn't do it.
 if(!(where.exe chocolatey)){ $env:Path += ';C:\Chocolatey\bin;' }
 
+# get the pre version because it has some features not yet released.
+chocolatey install chocolatey -pre
+
 #Install all my favorite packages.
 #cinst all -source 'http://www.myget.org/F/6a72e3c34526424eacb4a37e8c21f809/'
 
@@ -22,7 +25,12 @@ wincommandpaste
 linqpad4
 putty
 SkyDrive
-paint.net'
+paint.net
+git-credential-winstore
+dotpeek
+googlechrome
+WindowsLiveWriter
+boxstarter.helpers'
 
 $chocolateyIds > ChocolateyInstallIds.txt
 $path = get-item 'ChocolateyInstallIds.txt'
@@ -82,3 +90,11 @@ function initProfile()
 
 initProfile
 
+
+
+Set-ExplorerOptions -showHidenFilesFoldersDrives -showProtectedOSFiles -showFileExtensions
+
+Install-ChocolateyPinnedTaskBarItem (Find-Program "Google\Chrome\Application\chrome.exe")
+
+Install-ChocolateyFileAssociation ".txt" "$editorOfChoice"
+Install-ChocolateyFileAssociation ".dll" "$env:ChocolateyInstall\bin\dotPeek.bat"
