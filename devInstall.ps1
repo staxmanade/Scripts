@@ -36,7 +36,8 @@ $chocolateyIds > ChocolateyInstallIds.txt
 $path = get-item 'ChocolateyInstallIds.txt'
 $notepad = [System.Diagnostics.Process]::Start( "notepad.exe", $path )
 $notepad.WaitForExit()
-cat $path | where { $_ } | %{ cinstm $_ }
+$chocolateyIds = (cat $path | where { $_ })
+$chocolateyIds | %{ cinstm $_ }
 
 
 
@@ -50,6 +51,19 @@ if(!(where.exe git)){
 	function git(){
 		& $gitPath $args
 	}
+}
+
+git config --global user.email jason@elegantcode.com
+git config --global user.name 'Jason Jarrett'
+
+# configure git diff and merge if p4merge was installed
+if($chocolateyIds -match 'p4merge') {
+	git config --global merge.tool p4merge
+	git config --global mergetool.p4merge.cmd 'p4merge.exe \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"'
+	git config --global mergetool.prompt false
+	
+	git config --global diff.tool p4merge
+	git config --global difftool.p4merge.cmd 'p4merge.exe \"$LOCAL\" \"$REMOTE\"'
 }
 
 # setup local powershell profile.
